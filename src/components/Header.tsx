@@ -19,14 +19,17 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-background border-b border-border sticky top-0 z-50">
+    <header className="backdrop-blur-xl bg-background/80 border-b border-border/50 sticky top-0 z-50 supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">∑</span>
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <div className="w-8 h-8 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow-purple group-hover:shadow-glow-cyan transition-all duration-300">
+                <span className="text-white font-bold text-lg font-mono">∑</span>
+              </div>
+              <div className="absolute -inset-1 bg-gradient-primary rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
             </div>
-            <span className="text-xl font-semibold text-foreground">Math Club</span>
+            <span className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-200">Math Club</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -35,13 +38,16 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`transition-colors duration-200 ${
+                className={`relative transition-all duration-300 ${
                   isActivePage(item.href)
                     ? "text-primary font-medium"
                     : "text-muted-foreground hover:text-foreground"
-                }`}
+                } group`}
               >
                 {item.name}
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-primary transition-all duration-300 group-hover:w-full ${
+                  isActivePage(item.href) ? "w-full" : ""
+                }`}></span>
               </Link>
             ))}
           </nav>
@@ -52,6 +58,7 @@ const Header = () => {
               variant="ghost"
               size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="hover:bg-primary/10 hover:text-primary"
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>

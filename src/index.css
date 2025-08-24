@@ -8,52 +8,83 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 9% 16%;
+    /* Dark mode as default */
+    --background: 222 14% 8%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 9% 16%;
+    --card: 222 14% 10%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 9% 16%;
+    --popover: 222 14% 10%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 214 100% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 214 100% 40%;
+    --primary: 263 100% 70%;
+    --primary-foreground: 222 14% 8%;
+    --primary-hover: 263 100% 75%;
+    --primary-glow: 263 100% 85%;
 
-    --secondary: 214 20% 95%;
-    --secondary-foreground: 220 9% 16%;
+    --secondary: 215 25% 20%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 214 20% 95%;
-    --muted-foreground: 220 6% 46%;
+    --muted: 215 25% 15%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 25 95% 60%;
-    --accent-foreground: 0 0% 100%;
-    --accent-hover: 25 95% 55%;
+    --accent: 46 100% 60%;
+    --accent-foreground: 222 14% 8%;
+    --accent-hover: 46 100% 65%;
+    --accent-glow: 46 100% 80%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --success: 142 76% 60%;
+    --success-foreground: 222 14% 8%;
 
-    --border: 214 20% 90%;
-    --input: 214 20% 95%;
-    --ring: 214 100% 45%;
+    --warning: 38 92% 65%;
+    --warning-foreground: 222 14% 8%;
 
-    /* Academic color palette */
-    --academic-blue: 214 100% 45%;
-    --academic-blue-light: 214 100% 95%;
-    --academic-gray: 220 6% 46%;
-    --academic-gray-light: 220 6% 96%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 25% 20%;
+    --input: 215 25% 15%;
+    --ring: 263 100% 70%;
+
+    /* SaaS color palette */
+    --purple-500: 263 100% 70%;
+    --purple-600: 263 100% 65%;
+    --purple-700: 263 100% 55%;
+    --purple-glow: 263 100% 85%;
+    
+    --cyan-400: 189 95% 60%;
+    --cyan-500: 189 95% 55%;
+    --cyan-glow: 189 95% 80%;
+    
+    --emerald-400: 158 70% 60%;
+    --emerald-500: 158 70% 55%;
+    
+    --orange-400: 25 95% 65%;
+    --orange-500: 25 95% 60%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(214 100% 50%), hsl(214 100% 40%));
-    --gradient-hero: linear-gradient(135deg, hsl(214 100% 45%), hsl(25 95% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(263 100% 70%), hsl(189 95% 60%));
+    --gradient-secondary: linear-gradient(135deg, hsl(46 100% 60%), hsl(25 95% 65%));
+    --gradient-hero: linear-gradient(135deg, hsl(263 100% 70%) 0%, hsl(189 95% 60%) 50%, hsl(46 100% 60%) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(222 14% 10%) 0%, hsl(215 25% 12%) 100%);
+    --gradient-border: linear-gradient(135deg, hsl(263 100% 70%) 0%, hsl(189 95% 60%) 50%, hsl(46 100% 60%) 100%);
     
-    /* Shadows */
-    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Glass effects */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
+    /* Shadows with glow */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow-purple: 0 0 40px rgba(139, 92, 246, 0.3);
+    --shadow-glow-cyan: 0 0 40px rgba(34, 211, 238, 0.3);
+    --shadow-glow-orange: 0 0 40px rgba(251, 146, 60, 0.3);
     
     /* Transitions */
-    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
