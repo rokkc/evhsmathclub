@@ -1,88 +1,196 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Calendar } from "lucide-react";
 
 const Officers = () => {
+  // Data for the current 2025-2026 officers (placeholder)
   const officers = [
     {
-      name: "Sarah Chen",
+      name: "Pranshu Sharma",
       role: "President",
       year: "Senior",
-      bio: "Leading the club with passion for number theory and competition mathematics. 4x AIME qualifier.",
-      email: "sarah.chen@school.edu",
-      joinedYear: "2021",
-      achievements: ["USAMO Qualifier", "AMC 12 Perfect Score"],
+      bio: "Hi! I'm Pranshu Sharma and I'm excited to be your Math Club co-president this year! I like logical things like math and linguistics.",
+      funFact: "A fun fact about me is that I don't have a phone.",
     },
     {
-      name: "Marcus Rodriguez",
+      name: "Saanvi Kotha",
+      role: "President",
+      year: "Senior",
+      bio: "Hi Math Club, I'm Saanvi! I'm a senior at EV and I will be your co-president for this year. I can't wait to do fun activities like countdown and Integration Bee with you guys.",
+      funFact: "I like to read and go on walks in my neighborhood.",
+    },
+    {
+      name: "Yash Pattekar",
       role: "Vice President",
-      year: "Junior",
-      bio: "Specializes in combinatorics and graph theory. Organizes our weekly problem sessions.",
-      email: "marcus.r@school.edu",
-      joinedYear: "2022",
-      achievements: ["AIME Qualifier", "Regional Mathcounts Champion"],
+      year: "Senior",
+      bio: "Hey guys! I'm Yash Pattekar and I'll be your Math Club Vice President this year. I'm excited to talk to yall about math and other fun things.",
+      funFact: "I can do a bar muscle up.",
     },
     {
-      name: "Emily Zhang",
-      role: "Secretary",
-      year: "Junior",
-      bio: "Keeps us organized and runs our social media. Expert in probability and statistics.",
-      email: "emily.zhang@school.edu",
-      joinedYear: "2022",
-      achievements: ["Statistics Bowl Winner", "AMC 10 Honor Roll"],
-    },
-    {
-      name: "David Kim",
+      name: "Alivia Cui",
       role: "Treasurer",
       year: "Sophomore",
-      bio: "Manages club finances and coordinates fundraising events. Loves geometry and proofs.",
-      email: "david.kim@school.edu",
-      joinedYear: "2023",
-      achievements: ["Geometry Competition Winner", "Math League All-Star"],
+      bio: "Hii guys! My name is Alivia. I'm a sophomore, and I'll be your treasurer for this year! I'm really looking forward to working with everyone and expanding the club :D",
+      funFact: "Some of my hobbies include running and reading.",
     },
     {
-      name: "Alex Thompson",
-      role: "Competition Coordinator",
+      name: "Andy Xing",
+      role: "Secretary",
       year: "Senior",
-      bio: "Organizes our participation in math competitions and training sessions.",
-      email: "alex.t@school.edu",
-      joinedYear: "2021",
-      achievements: ["ARML Team Captain", "Calculus Competition Winner"],
-    },
-    {
-      name: "Maya Patel",
-      role: "Outreach Director",
-      year: "Junior",
-      bio: "Connects with middle schools and promotes math education in our community.",
-      email: "maya.patel@school.edu",
-      joinedYear: "2022",
-      achievements: ["Tutoring Excellence Award", "Community Service Medal"],
+      bio: "Hi! I'm Andy Xing, your math club secretary for this year. I enjoy solving and writing math problems. I can't wait to help math club shine and bring people together.",
+      funFact: "My favorite color is blue.",
     },
   ];
 
+  // Data for the club advisor
   const advisor = {
-    name: "Dr. Jennifer Martinez",
-    role: "Faculty Advisor",
-    department: "Mathematics Department",
-    bio: "PhD in Pure Mathematics from MIT. Specializes in algebraic topology and has been mentoring math competition students for over 15 years.",
-    email: "j.martinez@school.edu",
-    officeHours: "Tuesday & Thursday, 2:00-4:00 PM",
-    office: "Math Building, Room 312",
+    name: "Dr. Bhatnagar",
+    role: "Advisor",
+    bio: "Taught math courses like Calc BC at EVHS for a looooooooooooong time!",
   };
 
+  // Data for past officers, organized by year
+  const pastOfficerYears = [
+    {
+        year: "2024-2025",
+        officers: [
+            { role: "President", name: "Vincent Lo" },
+            { role: "Vice President", name: "Saanvi Kotha" },
+            { role: "Treasurer", name: "Jian Kweon" },
+            { role: "Secretary", name: "Dhruva Cheethirala" },
+            { role: "Event Coordinator", name: "Pranshu Sharma" }
+        ]
+    },
+    {
+        year: "2023-2024",
+        officers: [
+            { role: "President", name: "Prajwal Vandana" },
+            { role: "Vice President", name: "Eleanor Yang" },
+            { role: "Treasurer", name: "Vincent Lo" },
+            { role: "Secretary", name: "Saanvi Kotha" },
+            { role: "Event Coordinator", name: "Dhruva Cheethirala" }
+        ]
+    },
+    {
+        year: "2022-2023",
+        officers: [
+            { role: "President", name: "Arianna Cao" },
+            { role: "Vice President", name: "Prajwal Vandana & Andrew Chang" },
+            { role: "Treasurer", name: "Alex Li" },
+            { role: "Secretary", name: "Eleanor Yang" },
+            { role: "Event Coordinator", name: "Vincent Lo" }
+        ]
+    },
+    {
+        year: "2021-2022",
+        officers: [
+            { role: "President", name: "Ralph Cao" },
+            { role: "Vice President", name: "Jessica Qu" },
+            { role: "Treasurer", name: "Arianna Cao" },
+            { role: "Secretary", name: "Andrew Chang" },
+            { role: "Event Coordinator", name: "Prajwal Vandana" }
+        ]
+    },
+    {
+        year: "2020-2021",
+        officers: [
+            { role: "President", name: "Allen Ma" },
+            { role: "Vice President", name: "Felix Zhu" },
+            { role: "Treasurer", name: "Jessica Qu" },
+            { role: "Secretary", name: "Ralph Cao" },
+            { role: "Event Coordinator", name: "Arianna Cao" }
+        ]
+    },
+    {
+        year: "2019-2020",
+        officers: [
+            { role: "President", name: "Suhas Kotha" },
+            { role: "Vice President", name: "Allen Ma" },
+            { role: "Treasurer", name: "Felix Zhu" },
+            { role: "Secretary", name: "Jessica Qu" },
+            { role: "Event Coordinator", name: "Ralph Cao" }
+        ]
+    },
+    {
+        year: "2018-2019",
+        officers: [
+            { role: "President", name: "Matthew Guo" },
+            { role: "Vice President", name: "Jocelin Su" },
+            { role: "Treasurer", name: "Suhas Kotha" },
+            { role: "Secretary", name: "Allen Ma" },
+            { role: "Event Coordinator", name: "Felix Zhu" }
+        ]
+    },
+    {
+        year: "2017-2018",
+        officers: [
+            { role: "President", name: "Deven Navani" },
+            { role: "Vice President", name: "Michelle Li" },
+            { role: "Treasurer", name: "Matthew Guo" },
+            { role: "Secretary", name: "Jocelin Su" },
+            { role: "Event Coordinator", name: "Suhas Kotha" }
+        ]
+    },
+    {
+        year: "2016-2017",
+        officers: [
+            { role: "President", name: "Anton Cao" },
+            { role: "Vice President", name: "Rohan Joshi" },
+            { role: "Treasurer", name: "Kevin Cao" },
+            { role: "Secretary", name: "Dylan Tian" },
+            { role: "Event Coordinator", name: "Deven Navani" }
+        ]
+    },
+    {
+        year: "2015-2016",
+        officers: [
+            { role: "President", name: "Anton Cao" },
+            { role: "Vice President", name: "Rohan Joshi" },
+            { role: "Treasurer", name: "Kevin Cao" },
+            { role: "Secretary", name: "Dylan Tian" },
+            { role: "Event Coordinator", name: "Nagaganesh Jaladanki" }
+        ]
+    },
+    {
+        year: "2014-2015",
+        officers: [
+            { role: "President", name: "Andre Xiong" },
+            { role: "Vice President", name: "Justin Hao" },
+            { role: "Treasurer", name: "Charlie Tian" },
+            { role: "Secretary", name: "Jeremiah Fan" },
+            { role: "Events Coordinator", name: "Yongqi Gan" }
+        ]
+    },
+    {
+        year: "2013-2014",
+        officers: [
+            { role: "President", name: "Richard Qian" },
+        ]
+    },
+    {
+        year: "2012-2013",
+        officers: [
+            { role: "President", name: "Yizhe Liu" },
+            { role: "Officer", name: "Crystal Pan" },
+            { role: "Officer", name: "Julie Chen" },
+            { role: "Officer", name: "Louis Chen" },
+            { role: "Officer", name: "Richard Qian" },
+        ]
+    },
+  ];
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
       {/* Header */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold text-foreground">Club Officers</h1>
+        <h1 className="text-4xl font-bold text-foreground">Officers</h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Meet the dedicated team leading our math club to new heights of academic excellence.
+          The officers and advisor leading the EVHS Math Club.
         </p>
       </div>
 
-      {/* Officers Grid */}
+      {/* Current Officers Grid */}
       <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-8">Student Officers</h2>
+        <h2 className="text-3xl font-semibold text-foreground mb-8 pb-2 border-b">Current Officers (2025-2026)</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {officers.map((officer, index) => (
             <Card key={index} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
@@ -94,71 +202,56 @@ const Officers = () => {
                     <Badge variant="outline">{officer.year}</Badge>
                   </div>
                 </div>
-
                 <p className="text-muted-foreground text-sm leading-relaxed">{officer.bio}</p>
-
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Mail className="h-4 w-4" />
-                    <span>{officer.email}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span>Joined {officer.joinedYear}</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-foreground">Achievements</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {officer.achievements.map((achievement, i) => (
-                      <Badge key={i} variant="outline" className="text-xs">
-                        {achievement}
-                      </Badge>
-                    ))}
-                  </div>
+                <div className="pt-2">
+                  <h4 className="text-sm font-medium text-foreground">Fun Fact</h4>
+                  <p className="text-muted-foreground text-sm">{officer.funFact}</p>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
       </section>
-
+      
       {/* Advisor Section */}
       <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-8">Faculty Advisor</h2>
-        <Card className="max-w-2xl bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
+        <h2 className="text-3xl font-semibold text-foreground mb-8 pb-2 border-b">Advisor</h2>
+        <Card className="max-w-2xl">
           <CardContent className="p-8 space-y-6">
             <div className="space-y-2">
               <h3 className="text-2xl font-semibold text-foreground">{advisor.name}</h3>
               <div className="flex items-center gap-2">
                 <Badge className="bg-primary text-primary-foreground">{advisor.role}</Badge>
-                <Badge variant="outline">{advisor.department}</Badge>
               </div>
             </div>
-
             <p className="text-muted-foreground leading-relaxed">{advisor.bio}</p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Mail className="h-4 w-4" />
-                  <span>{advisor.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span>{advisor.officeHours}</span>
-                </div>
-              </div>
-              <div>
-                <p className="text-muted-foreground">
-                  <span className="font-medium">Office:</span> {advisor.office}
-                </p>
-              </div>
-            </div>
           </CardContent>
         </Card>
       </section>
+
+      {/* Past Officers Section */}
+      <section>
+        <h2 className="text-3xl font-semibold text-foreground mb-8 pb-2 border-b">Past Officers</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pastOfficerYears.map((yearData) => (
+            <Card key={yearData.year} className="hover:shadow-lg transition-shadow duration-200">
+              <CardHeader>
+                <CardTitle>{yearData.year}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm">
+                  {yearData.officers.map((officer, index) => (
+                    <li key={index} className="text-muted-foreground">
+                      <span className="font-semibold text-foreground">{officer.role}:</span> {officer.name}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 };

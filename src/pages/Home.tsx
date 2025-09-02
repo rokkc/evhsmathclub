@@ -1,49 +1,262 @@
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { Calendar, Users, BookOpen, Trophy, ExternalLink } from "lucide-react";
-import mathHeroImage from "@/assets/math-hero.jpg";
+
+/**
+ * Lightweight, self-contained Matter.js canvas used in the hero's animation area.
+ * - no SSR assumptions (dynamic import of matter-js)
+ * - crisp on HiDPI
+ * - responsive to container size
+ * - mouse/touch drag enabled
+ */
+function PhysicsAnimation() {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    let engine, render, runner;
+    let walls = [];
+    let ramps = [];
+    let destroyed = false;
+
+    const setup = async () => {
+      const Matter = await import("matter-js");
+      const { Engine, Render, Runner, Bodies, Body, Composite, World } = Matter;
+
+      if (!mountRef.current) return;
+      const container = mountRef.current;
+      const rect = container.getBoundingClientRect();
+
+      engine = Engine.create({ gravity: { x: 0, y: 1.0 } });
+
+      render = Render.create({
+        element: container,
+        engine,
+        options: {
+          width: Math.max(320, Math.floor(rect.width)),
+          height: Math.max(260, Math.floor(rect.height)),
+          wireframes: false,
+          background: "transparent",
+          pixelRatio: window.devicePixelRatio || 1,
+        },
+      });
+
+      const COLORS = ["#f97316", "#f59e0b", "#fbbf24", "#fde68a", "#0f2940"];
+      const rand = (min, max) => Math.random() * (max - min) + min;
+      const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+      const makeBall = (x, y) =>
+        Bodies.circle(x, y, rand(8, 18), {
+          restitution: 0.45,
+          friction: 0.001,
+          frictionAir: 0,
+          render: {
+            fillStyle: pick(COLORS),
+            strokeStyle: "rgba(0,0,0,0.06)",
+            lineWidth: 1,
+          },
+        });
+
+      const mkWalls = (W, H) => {
+        const thick = 80;
+        const opts = { isStatic: true, render: { visible: false } };
+        walls = [];
+        World.add(engine.world, walls);
+      };
+
+      const rampStyle = {
+        isStatic: true,
+        chamfer: { radius: 6 },
+        render: {
+          fillStyle: "transparent",
+          strokeStyle: "#ffffff",
+          lineWidth: 3,
+        },
+      };
+
+      const mkRamps = (W, H) => {
+        const a1 = -0.2;
+        const a2 = +0.17;
+        const a3 = -0.26;
+
+        const r1 = Bodies.rectangle(W * 0.66, H * 0.22, W * 0.5, 12, {
+          ...rampStyle,
+          angle: a1,
+        });
+        const r2 = Bodies.rectangle(W * 0.32, H * 0.55, W * 0.56, 12, {
+          ...rampStyle,
+          angle: a2,
+        });
+        const r3 = Bodies.rectangle(W * 0.6, H * 0.86, W * 0.82, 12, {
+          ...rampStyle,
+          angle: a3,
+        });
+
+        ramps = [r1, r2, r3];
+        World.add(engine.world, ramps);
+      };
+
+      const W = render.options.width;
+      const H = render.options.height;
+      mkWalls(W, H);
+      mkRamps(W, H);
+
+      const initial = 5;
+      const balls = Array.from({ length: initial }, () =>
+        makeBall(rand(W * 0.8, W * 0.28), rand(-40, H * 0.05))
+      );
+      World.add(engine.world, balls);
+
+      balls.forEach((b) => Body.setAngularVelocity(b, rand(-0.05, 0.05)));
+
+      let spawned = 0;
+      const timer = window.setInterval(() => {
+        if (destroyed || spawned > 40) return window.clearInterval(timer);
+        const b = makeBall(rand(W * 0.9, W * 0.22), -30);
+        World.add(engine.world, b);
+        spawned += 1;
+      }, 700);
+
+      const resize = () => {
+        if (!mountRef.current) return;
+        const { width, height } = mountRef.current.getBoundingClientRect();
+        const newW = Math.max(320, Math.floor(width));
+        const newH = Math.max(260, Math.floor(height));
+
+        render.options.width = newW;
+        render.options.height = newH;
+        render.canvas.width = newW * (window.devicePixelRatio || 1);
+        render.canvas.height = newH * (window.devicePixelRatio || 1);
+        render.canvas.style.width = `${newW}px`;
+        render.canvas.style.height = `${newH}px`;
+        Render.setPixelRatio(render, window.devicePixelRatio || 1);
+
+        if (walls.length) World.remove(engine.world, walls);
+        if (ramps.length) World.remove(engine.world, ramps);
+        mkWalls(newW, newH);
+        mkRamps(newW, newH);
+      };
+
+      window.addEventListener("resize", resize);
+
+      Render.run(render);
+      runner = Runner.create();
+      Runner.run(runner, engine);
+
+      return () => {
+        window.removeEventListener("resize", resize);
+        window.clearInterval(timer);
+        try {
+          Runner.stop(runner);
+          Render.stop(render);
+          if (render?.canvas && render.canvas.parentNode)
+            render.canvas.parentNode.removeChild(render.canvas);
+          Engine.clear(engine);
+        } catch {}
+      };
+    };
+
+    let cleanup;
+    (async () => (cleanup = await setup()))();
+
+    return () => {
+      destroyed = true;
+      if (cleanup) cleanup();
+    };
+  }, []);
+
+  return (
+    <div ref={mountRef} className="relative w-full h-[420px] lg:h-[520px]" />
+  );
+}
 
 const Home = () => {
   return (
-    <div className="space-y-16">
+    <div className="space-y-12">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-10"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-float" style={{animationDelay: '2s'}}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{animationDelay: '4s'}}></div>
+
+        {/* BACKGROUND GLOWS (Safari-safe: wrapped & clipped) */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Glow 1 */}
+          <div className="absolute top-20 left-20">
+            <div className="w-72 h-72 rounded-full overflow-hidden">
+              <div className="w-full h-full bg-primary/20 blur-3xl animate-float" />
+            </div>
+          </div>
+
+          {/* Glow 2 */}
+          <div className="absolute bottom-20 right-20">
+            <div className="w-96 h-96 rounded-full overflow-hidden">
+              <div
+                className="w-full h-full bg-accent/20 blur-3xl animate-float"
+                style={{ animationDelay: "2s" }}
+              />
+            </div>
+          </div>
+
+          {/* Glow 3 (shifted a bit left) */}
+          <div className="absolute top-1/2 left-[46%] -translate-x-1/2 -translate-y-1/2">
+            <div className="w-[600px] h-[600px] rounded-full overflow-hidden">
+              <div
+                className="w-full h-full bg-cyan-500/10 blur-3xl animate-float"
+                style={{ animationDelay: "4s" }}
+              />
+            </div>
+          </div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8 animate-slide-up">
+            <div className="space-y-6 animate-slide-up">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold bg-gradient-primary bg-clip-text text-transparent leading-tight">
-                Welcome to <span className="block">Math Club</span>
+                EVHS<span className="block">Math Club</span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                Join us in exploring the beauty of mathematics through competitions, 
-                problem-solving, and collaborative learning. Where passion meets precision.
+                Join us in exploring mathematics through competitions,
+                problem-solving, and collaborative learning.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-gradient-primary hover:shadow-glow-purple transition-all duration-300 text-white font-semibold px-8 py-4 text-lg">
-                  Join Our Discord
-                  <ExternalLink className="ml-2 h-5 w-5" />
-                </Button>
-                <Button variant="outline" size="lg" className="border-primary/30 hover:border-primary hover:bg-primary/10 hover:text-primary transition-all duration-300 px-8 py-4 text-lg">
-                  View Resources
-                </Button>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="https://discord.gg/HeAM7TYV2y"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    size="lg"
+                    className="bg-gradient-primary hover:shadow-glow-purple transition-all duration-300 text-white font-semibold px-8 py-4 text-lg"
+                  >
+                    Join Our Discord
+                    <ExternalLink className="ml-2 h-5 w-5" />
+                  </Button>
+                </a>
+                <Link to="/resources">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="border-primary/30 hover:border-primary hover:bg-primary/10 hover:text-primary transition-all duration-300 px-8 py-4 text-lg"
+                  >
+                    View Resources
+                  </Button>
+                </Link>
               </div>
             </div>
-            <div className="lg:order-last animate-slide-up" style={{animationDelay: '0.2s'}}>
-              <div className="relative group">
-                <img 
-                  src={mathHeroImage} 
-                  alt="Mathematical equations and formulas" 
-                  className="w-full h-auto rounded-3xl shadow-2xl group-hover:shadow-glow-cyan transition-all duration-500 transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-primary opacity-20 rounded-3xl"></div>
-              </div>
+
+            {/* Animation Area w/ Matter.js */}
+            <div
+              className="hidden lg:block lg:order-last animate-slide-up"
+              style={{ animationDelay: "0.2s" }}
+            >
+              <PhysicsAnimation />
             </div>
           </div>
         </div>
@@ -54,52 +267,65 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-gradient-card border-border/50 hover:shadow-glow-purple hover:border-primary/30 transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Next Meeting</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Next Meeting
+              </CardTitle>
               <Calendar className="h-4 w-4 text-primary group-hover:text-primary-glow transition-colors duration-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">Dec 15</div>
-              <p className="text-xs text-muted-foreground">
-                Room 204 • 3:30 PM
-              </p>
+              <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Sept. 2
+              </div>
+              <p className="text-xs text-muted-foreground">Room B109 @ Lunch</p>
             </CardContent>
           </Card>
 
+          {/* Members card (was "Active Members") */}
           <Card className="bg-gradient-card border-border/50 hover:shadow-glow-cyan hover:border-cyan-500/30 transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Active Members</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Members
+              </CardTitle>
               <Users className="h-4 w-4 text-cyan-500 group-hover:text-cyan-400 transition-colors duration-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">47</div>
-              <p className="text-xs text-muted-foreground">
-                +3 this month
+              <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">
+                147
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Signups This Year
               </p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-card border-border/50 hover:shadow-glow-orange hover:border-accent/30 transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Competitions</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Next Competition
+              </CardTitle>
               <Trophy className="h-4 w-4 text-accent group-hover:text-accent-hover transition-colors duration-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold bg-gradient-secondary bg-clip-text text-transparent">12</div>
-              <p className="text-xs text-muted-foreground">
-                This year
-              </p>
+              <div className="text-2xl font-bold bg-gradient-secondary bg-clip-text text-transparent">
+                AMC 10/12 A
+              </div>
+              <p className="text-xs text-muted-foreground">November 5</p>
             </CardContent>
           </Card>
 
           <Card className="bg-gradient-card border-border/50 hover:shadow-glow-purple hover:border-emerald-400/30 transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Resources</CardTitle>
+              <CardTitle className="text-sm font-medium text-muted-foreground">
+                Resources
+              </CardTitle>
               <BookOpen className="h-4 w-4 text-emerald-400 group-hover:text-emerald-500 transition-colors duration-300" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-500 bg-clip-text text-transparent">85+</div>
+              <div className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-500 bg-clip-text text-transparent">
+                85+
+              </div>
               <p className="text-xs text-muted-foreground">
-                Practice problems
+                Available Resources
               </p>
             </CardContent>
           </Card>
@@ -111,30 +337,26 @@ const Home = () => {
         <Card className="bg-gradient-card border border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-glow-orange">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-3xl font-bold bg-gradient-secondary bg-clip-text text-transparent">Problem of the Month</CardTitle>
-              <Badge variant="secondary" className="bg-accent/20 text-accent border-accent/30 hover:bg-accent/30 transition-colors duration-300">
-                December 2024
+              <CardTitle className="text-3xl font-bold bg-gradient-secondary bg-clip-text text-transparent">
+                Problem of the Month
+              </CardTitle>
+              <Badge
+                variant="secondary"
+                className="bg-accent/20 text-accent border-accent/30 hover:bg-accent/30 transition-colors duration-300"
+              >
+                September 2025
               </Badge>
             </div>
             <CardDescription>
               Challenge yourself with this month's featured problem
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50">
-              <p className="text-lg font-medium mb-4 font-mono">
-                Find the sum of all positive integers n such that when n is divided by 13, 
-                the quotient and remainder are both perfect squares.
+          <CardContent>
+            <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 text-center">
+              <p className="text-lg font-medium text-muted-foreground">
+                A new problem is coming soon. Check back later!
               </p>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <span>Difficulty: ⭐⭐⭐⭐</span>
-                <span>Source: AMC 12</span>
-                <span>Due: December 20</span>
-              </div>
             </div>
-            <Button variant="outline" className="border-accent/30 hover:border-accent hover:bg-accent/10 hover:text-accent transition-all duration-300 font-semibold">
-              Submit Solution
-            </Button>
           </CardContent>
         </Card>
       </section>
@@ -143,26 +365,46 @@ const Home = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-primary opacity-5 rounded-3xl"></div>
-          <div className="relative backdrop-blur-sm bg-card/30 border border-border/50 rounded-3xl p-12">
-            <div className="text-center space-y-8">
-              <h2 className="text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">Stay Connected</h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                Join our community on Discord for daily problems, discussions, and competition updates.
+          <div className="relative backdrop-blur-sm bg-card/30 border border-border/50 rounded-3xl p-8">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+                Stay Connected
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Join our community on Discord for announcements, discussions,
+                and competition updates.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button className="bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold px-8 py-4 text-lg hover:shadow-lg hover:shadow-[#5865F2]/25 transition-all duration-300">
-                  Join Discord Server
-                  <ExternalLink className="ml-2 h-5 w-5" />
-                </Button>
-                <Button variant="outline" className="border-primary/30 hover:border-primary hover:bg-primary/10 hover:text-primary font-semibold px-8 py-4 text-lg transition-all duration-300">
-                  Follow on Facebook
-                  <ExternalLink className="ml-2 h-5 w-5" />
-                </Button>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-2">
+                <a
+                  href="https://discord.gg/HeAM7TYV2y"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button className="bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold px-8 py-4 text-lg hover:shadow-lg hover:shadow-[#5865F2]/25 transition-all duration-300">
+                    Join Discord Server
+                    <ExternalLink className="ml-2 h-5 w-5" />
+                  </Button>
+                </a>
+                <a
+                  href="https://www.facebook.com/groups/evhsmathclub"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="outline"
+                    className="border-primary/30 hover:border-primary hover:bg-primary/10 hover:text-primary font-semibold px-8 py-4 text-lg transition-all duration-300"
+                  >
+                    Follow on Facebook
+                    <ExternalLink className="ml-2 h-5 w-5" />
+                  </Button>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <div className="py-12"></div>
     </div>
   );
 };

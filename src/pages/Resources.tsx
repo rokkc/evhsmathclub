@@ -1,120 +1,90 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Download, BookOpen, Presentation, FileText, Calculator } from "lucide-react";
+import { ExternalLink, Download, BookOpen, FileText } from "lucide-react";
 
 const Resources = () => {
-  const presentations = [
+  // Data for the practice resources section
+  const practiceResources = [
     {
-      title: "Introduction to Number Theory",
-      date: "November 2024",
-      presenter: "Sarah Chen",
-      description: "Covering modular arithmetic, prime numbers, and Diophantine equations",
-      type: "Slides",
-      downloadUrl: "#",
+      name: "AMC 8 Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past AMC 8 (and AJHSME) problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/AMC_8_Problems_and_Solutions",
     },
     {
-      title: "Combinatorics Workshop",
-      date: "October 2024",
-      presenter: "Marcus Rodriguez",
-      description: "Permutations, combinations, and the pigeonhole principle",
-      type: "Slides + Recording",
-      downloadUrl: "#",
+      name: "AMC 10 Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past AMC 10 problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/AMC_10_Problems_and_Solutions",
     },
     {
-      title: "Geometry Problem Solving",
-      date: "September 2024",
-      presenter: "David Kim",
-      description: "Advanced geometric techniques for competition problems",
-      type: "Slides",
-      downloadUrl: "#",
+      name: "AMC 12 Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past AMC 12 problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/AMC_12_Problems_and_Solutions",
     },
     {
-      title: "Probability & Statistics Deep Dive",
-      date: "August 2024",
-      presenter: "Emily Zhang",
-      description: "From basic probability to advanced statistical methods",
-      type: "Slides + Worksheets",
-      downloadUrl: "#",
-    },
-  ];
-
-  const mockExams = [
-    {
-      name: "AMC 10 Practice Test #1",
-      difficulty: "Intermediate",
-      problems: 25,
-      timeLimit: "75 minutes",
-      downloadUrl: "#",
+      name: "AIME Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past AIME problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/AIME_Problems_and_Solutions",
     },
     {
-      name: "AMC 12 Practice Test #1",
-      difficulty: "Advanced",
-      problems: 25,
-      timeLimit: "75 minutes",
-      downloadUrl: "#",
+      name: "USAMO Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past USAMO problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/USAMO_Problems_and_Solutions",
     },
     {
-      name: "AIME Practice Test #1",
-      difficulty: "Expert",
-      problems: 15,
-      timeLimit: "3 hours",
-      downloadUrl: "#",
+      name: "USAJMO Problems",
+      source: "Art of Problem Solving",
+      description: "A comprehensive list of past USAJMO problems and solutions.",
+      url: "https://artofproblemsolving.com/wiki/index.php/USAJMO_Problems_and_Solutions",
     },
     {
-      name: "Local Competition Prep",
-      difficulty: "Beginner",
-      problems: 20,
-      timeLimit: "60 minutes",
-      downloadUrl: "#",
+      name: "Mock AMC 12 Contests",
+      source: "Art of Problem Solving",
+      description: "Community-created mock AMC 12 contests for practice.",
+      url: "https://artofproblemsolving.com/wiki/index.php/Mock_Amc_12",
+    },
+    {
+      name: "Mock AIME Contests",
+      source: "Art of Problem Solving",
+      description: "Community-created mock AIME contests for practice.",
+      url: "https://artofproblemsolving.com/wiki/index.php/Mock_AIME",
+    },
+    {
+      name: "AMC Trivial",
+      source: "amctrivial.com",
+      description: "A math competition problem generator made by a former EVHS student!",
+      url: "https://amctrivial.com/",
     },
   ];
 
-  const externalResources = [
+  // Data for the club resources section
+  const clubResources = [
     {
-      name: "Art of Problem Solving (AoPS)",
-      description: "The premier online resource for competition mathematics",
-      url: "https://artofproblemsolving.com",
-      type: "Website",
-      icon: <Calculator className="h-5 w-5" />,
+      name: "Official Linktree",
+      description: "Find all our official links, social media, and important announcements in one place.",
+      url: "https://linktr.ee/evhsmathclub",
+      icon: <ExternalLink className="h-5 w-5" />,
+      type: "Link Hub",
     },
     {
-      name: "Khan Academy",
-      description: "Free online courses covering all levels of mathematics",
-      url: "https://khanacademy.org",
-      type: "Online Courses",
+      name: "Number Theory Practice",
+      description: "A document filled with practice problems to sharpen your number theory skills.",
+      url: "https://docs.google.com/document/d/1nHO4_Nae72A35gl7kC386a1pqRwq-w20XC1ppqh-eq4/edit?usp=sharing",
       icon: <BookOpen className="h-5 w-5" />,
+      type: "Practice Problems",
     },
     {
-      name: "Wolfram MathWorld",
-      description: "Comprehensive mathematics encyclopedia",
-      url: "https://mathworld.wolfram.com",
-      type: "Reference",
+      name: "Number Theory Cheat Sheet",
+      description: "A handy cheat sheet with key theorems, formulas, and concepts for number theory.",
+      url: "https://docs.google.com/document/d/10VpdyFKZe6e2RitlLPz5Ws6i8Jv4VrLUzd5_HHWilQs/edit?usp=sharing",
       icon: <FileText className="h-5 w-5" />,
-    },
-    {
-      name: "MIT OpenCourseWare",
-      description: "Free university-level mathematics courses",
-      url: "https://ocw.mit.edu",
-      type: "Courses",
-      icon: <Presentation className="h-5 w-5" />,
+      type: "Reference",
     },
   ];
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Beginner":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "Intermediate":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "Advanced":
-        return "bg-orange-100 text-orange-800 border-orange-200";
-      case "Expert":
-        return "bg-red-100 text-red-800 border-red-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
@@ -126,28 +96,23 @@ const Resources = () => {
         </p>
       </div>
 
-      {/* Past Presentations */}
+      {/* Practice Problems & Mock Exams */}
       <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-6">Past Presentations & Materials</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {presentations.map((presentation, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
+        <h2 className="text-2xl font-semibold text-foreground mb-6">Practice Problems & Mock Exams</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {practiceResources.map((exam, index) => (
+            <Card key={index} className="hover:shadow-lg transition-shadow duration-200 flex flex-col">
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <CardTitle className="text-lg">{presentation.title}</CardTitle>
-                    <CardDescription>
-                      By {presentation.presenter} • {presentation.date}
-                    </CardDescription>
-                  </div>
-                  <Badge variant="secondary">{presentation.type}</Badge>
-                </div>
+                <CardTitle>{exam.name}</CardTitle>
+                <CardDescription>{exam.source}</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground text-sm">{presentation.description}</p>
-                <Button variant="outline" size="sm" className="w-full">
-                  <Download className="mr-2 h-4 w-4" />
-                  Download Materials
+              <CardContent className="flex flex-col flex-grow">
+                <p className="text-muted-foreground text-sm mb-4 flex-grow">{exam.description}</p>
+                <Button variant="outline" size="sm" className="w-full mt-auto" asChild>
+                  <a href={exam.url} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="mr-2 h-4 w-4" />
+                    Visit Resource
+                  </a>
                 </Button>
               </CardContent>
             </Card>
@@ -155,62 +120,29 @@ const Resources = () => {
         </div>
       </section>
 
-      {/* Mock Exams */}
+      {/* Club Resources */}
       <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-6">Practice Tests & Mock Exams</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockExams.map((exam, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg leading-tight">{exam.name}</CardTitle>
-                <Badge className={getDifficultyColor(exam.difficulty)} variant="secondary">
-                  {exam.difficulty}
-                </Badge>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="space-y-1 text-sm text-muted-foreground">
-                  <div className="flex justify-between">
-                    <span>Problems:</span>
-                    <span className="font-medium">{exam.problems}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Time Limit:</span>
-                    <span className="font-medium">{exam.timeLimit}</span>
-                  </div>
-                </div>
-                <Button variant="outline" size="sm" className="w-full">
-                  <Download className="mr-2 h-4 w-4" />
-                  Download
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* External Resources */}
-      <section>
-        <h2 className="text-2xl font-semibold text-foreground mb-6">External Resources</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {externalResources.map((resource, index) => (
-            <Card key={index} className="hover:shadow-lg transition-shadow duration-200">
+        <h2 className="text-2xl font-semibold text-foreground mb-6">Club Resources</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {clubResources.map((resource, index) => (
+            <Card key={index} className="hover:shadow-lg transition-shadow duration-200 flex flex-col">
               <CardHeader>
                 <div className="flex items-center space-x-3">
                   <div className="p-2 bg-primary/10 rounded-lg text-primary">
                     {resource.icon}
                   </div>
-                  <div className="space-y-1">
+                  <div>
                     <CardTitle className="text-lg">{resource.name}</CardTitle>
-                    <Badge variant="outline">{resource.type}</Badge>
+                    <CardDescription>{resource.type}</CardDescription>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-muted-foreground text-sm">{resource.description}</p>
+              <CardContent className="flex flex-col flex-grow">
+                <p className="text-muted-foreground text-sm mb-4 flex-grow">{resource.description}</p>
                 <Button variant="outline" size="sm" className="w-full" asChild>
                   <a href={resource.url} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="mr-2 h-4 w-4" />
-                    Visit Website
+                    Open Link
                   </a>
                 </Button>
               </CardContent>
@@ -227,12 +159,14 @@ const Resources = () => {
             Can't find what you're looking for? Reach out to our officers or join our Discord for real-time help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="bg-[#5865F2] hover:bg-[#4752C4] text-white">
-              Ask on Discord
-              <ExternalLink className="ml-2 h-4 w-4" />
+            <Button className="bg-[#5865F2] hover:bg-[#4752C4] text-white" asChild>
+              <a href="https://discord.gg/HeAM7TYV2y" target="_blank" rel="noopener noreferrer">
+                Ask on Discord
+                <ExternalLink className="ml-2 h-4 w-4" />
+              </a>
             </Button>
-            <Button variant="outline">
-              Contact Officers
+            <Button variant="outline" asChild>
+              <a href="mailto:mathclub.evhs@gmail.com">Email Us</a>
             </Button>
           </div>
         </div>

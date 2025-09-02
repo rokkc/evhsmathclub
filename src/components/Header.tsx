@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../assets/logo.png"; // Import your logo image
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,12 +25,11 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="w-8 h-8 bg-gradient-primary rounded-xl flex items-center justify-center shadow-glow-purple group-hover:shadow-glow-cyan transition-all duration-300">
-                <span className="text-white font-bold text-lg font-mono">∑</span>
-              </div>
-              <div className="absolute -inset-1 bg-gradient-primary rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-300"></div>
+              {/* Adjusted logo size (w-10 h-10) and reduced glow opacity (opacity-10) */}
+              <img src={Logo} alt="EVHS Math Club Logo" className="w-9 h-9 object-contain" />
+              <div className="absolute -inset-1 bg-gradient-primary rounded-xl blur opacity-10 group-hover:opacity-20 transition-opacity duration-300"></div>
             </div>
-            <span className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-200">Math Club</span>
+            <span className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors duration-200">EVHS Math Club</span>
           </Link>
 
           {/* Desktop Navigation */}
