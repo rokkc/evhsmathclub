@@ -290,7 +290,7 @@ const Home = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">
-                147
+                127
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 Signups This Year
