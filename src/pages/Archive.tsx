@@ -51,7 +51,7 @@ const Archive = () => {
       date: "April 10, 2025",
       winner: "Jonathan Tran",
       runnerUps: "Yash Pattekar, Abijeet Sathishkumar",
-      participants: 99,
+      participants: 57,
       materials: {
         preliminary: {
           problemsLink: "https://drive.google.com/file/d/1b9sAhu-wC603meUvFJu54E3oFf8zO-yS/view?usp=sharing",
