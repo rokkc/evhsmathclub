@@ -11,6 +11,15 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Calendar, Users, BookOpen, Trophy, ExternalLink } from "lucide-react";
 
+// Image imports for the Problem of the Month
+import image1 from "../assets/POTMSept/image1.png";
+import image2 from "../assets/POTMSept/image2.png";
+import image3 from "../assets/POTMSept/image3.png";
+import image4 from "../assets/POTMSept/image4.png";
+import image5 from "../assets/POTMSept/image5.png";
+import image6 from "../assets/POTMSept/image6.png";
+
+
 /**
  * Lightweight, self-contained Matter.js canvas used in the hero's animation area.
  * - no SSR assumptions (dynamic import of matter-js)
@@ -274,7 +283,7 @@ const Home = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Sept. 2
+                Oct. 7
               </div>
               <p className="text-xs text-muted-foreground">Room B109 @ Lunch</p>
             </CardContent>
@@ -348,14 +357,81 @@ const Home = () => {
               </Badge>
             </div>
             <CardDescription>
-              Challenge yourself with this month's featured problem
+              Challenge yourself with this month's featured problem on Taxicab Geometry.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 text-center">
-              <p className="text-lg font-medium text-muted-foreground">
-                A new problem is coming soon. Check back later!
-              </p>
+          <CardContent className="prose prose-invert max-w-none text-muted-foreground">
+            <div className="space-y-8">
+              <div>
+                <p>Taxicab geometry is a type of non-Euclidean geometry where the distance between two points is measured as the minimum travel needed along a grid (like city blocks or a cartesian coordinate plane), unlike Euclidean geometry, which measures the straight-line "as-the-crow-flies" distance.</p>
+                <img src={image1} alt="City grid showing Taxicab vs Euclidean distance" className="mx-auto my-4 rounded-lg shadow-md max-w-xl" />
+                <p className="text-center text-sm">Two possible paths for Taxicab distance are drawn above as well as the Euclidean distance in pink.</p>
+              </div>
+
+              <div className="bg-card/50 p-4 rounded-lg border border-border/50">
+                <h4 className="font-semibold text-lg text-foreground">Example 1</h4>
+                <p>The taxicab distance between the point (2, 4) and (6, 3) is calculated as 5 while the euclidean distance calculated with the pythagorean formula is √1² + 4² = √17.</p>
+                <img src={image2} alt="Coordinate plane showing points (2,4) and (6,3)" className="mx-auto my-4 rounded-lg shadow-md max-w-sm" />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">Problem 1</h3>
+                <p>Calculate the Taxicab Distance between the two points below. Try multiple paths, is the distance between the two points always the same?</p>
+                <img src={image3} alt="Coordinate plane for Problem 1" className="mx-auto my-4 rounded-lg shadow-md max-w-sm" />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">Problem 2</h3>
+                <p>Draw a "circle" of radius 5 in Taxicab Geometry. Pick a center, and connect all points that are 5 units away from the center.</p>
+                <p className="text-sm">Note: Non-integer coordinates and fractional distances are allowed in Taxicab Geometry.</p>
+                <img src={image4} alt="Empty coordinate plane for Problem 2" className="mx-auto my-4 rounded-lg shadow-md max-w-sm" />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">Problem 3</h3>
+                <p>Calculate π in Taxicab Geometry.</p>
+                <div className="bg-card/50 p-4 rounded-lg border border-border/50 mt-2">
+                    <p><span className="font-bold text-accent">Hint / Example 2:</span> Triangle congruence and similarity theorems work differently in Taxicab Geometry. The two triangles below share all three angle measures and also two side lengths. Using our knowledge from Euclidean Geometry, they would be congruent by AAS. However we can see that those triangles are not congruent as the third side length is not the same. Taxicab Geometry has a different set of congruence theorems, and may require more than just 3 angles or side lengths. From this example we can also see that ASASA (and also AASS, ASS, AAAS, etc) does not apply to Taxicab Geometry.</p>
+                    <img src={image5} alt="Example of non-congruent triangles in taxicab geometry" className="mx-auto my-4 rounded-lg shadow-md max-w-md" />
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">Problem 4</h3>
+                <p>Find a triangle congruence theorem for Taxicab Geometry.</p>
+                <img src={image6} alt="Empty coordinate plane for Problem 4" className="mx-auto my-4 rounded-lg shadow-md max-w-sm" />
+              </div>
+
+              <div className="border-t border-border/50 pt-8">
+                <p>That's it! Hope you enjoyed Taxicab geometry.</p>
+                <div className="text-center pt-4">
+                  <h3 className="text-2xl font-bold">Ready to Submit?</h3>
+                  <p className="max-w-xl mx-auto my-2">Click the button below to submit your answers through our Google Form. Good luck!</p>
+                  <a
+                    href="https://forms.gle/L9moW8UGyz9VVRGf9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      size="lg"
+                      className="bg-gradient-primary hover:shadow-glow-purple transition-all duration-300 text-white font-semibold px-8 py-4 text-lg mt-4"
+                    >
+                      Submit Your Answers
+                      <ExternalLink className="ml-2 h-5 w-5" />
+                    </Button>
+                  </a>
+                </div>
+              </div>
+              
+              <div className="pt-4 text-sm">
+                <h4 className="font-semibold text-lg text-foreground">Learn More</h4>
+                <p>If you want to learn more, Taxicab geometry also has applications in biochemistry to assess the differences in discrete frequency distributions such as in the RNA splicing positional distributions of hexamers. You can read more at <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3131313/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">this research paper</a>.</p>
+                <p>For additional problems, check out these resources:</p>
+                <ul className="list-disc pl-5">
+                  <li><a href="https://scholarworks.umt.edu/cgi/viewcontent.cgi?article=1018&context=tme" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">University of Montana</a></li>
+                  <li><a href="https://www.math.uci.edu/~mathcircle/materials/M5L1.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">UC Irvine Math Circle</a></li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>
