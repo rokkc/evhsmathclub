@@ -9,7 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { Calendar, Users, BookOpen, Trophy, ExternalLink, Info } from "lucide-react"; // Added Info icon
+import { Calendar, Users, BookOpen, Trophy, ExternalLink, Info } from "lucide-react";
+
+// --- ADD THESE TWO LINES ---
+import 'katex/dist/katex.min.css';
+import Latex from "react-latex-next";
+// --------------------------
 
 
 /**
@@ -275,7 +280,7 @@ const Home = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Oct. 14
+                Nov. 4
               </div>
               <p className="text-xs text-muted-foreground">Room B109 @ Lunch</p>
             </CardContent>
@@ -333,6 +338,35 @@ const Home = () => {
         </div>
       </section>
 
+      {/* --- NEW ANNOUNCEMENTS SECTION --- */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Card className="bg-gradient-card border border-cyan-500/20 hover:border-cyan-500/40 transition-all duration-300 hover:shadow-glow-cyan">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-cyan-500 bg-clip-text text-transparent">
+                Announcements
+              </CardTitle>
+              <Info className="h-6 w-6 text-cyan-500" />
+            </div>
+            <CardDescription>
+              Important dates and deadlines.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="prose prose-invert max-w-none text-muted-foreground">
+            <div className="bg-card/50 p-4 rounded-lg border border-border/50 space-y-2">
+              <h4 className="font-semibold text-lg text-foreground">
+                USAMTS Round 2
+              </h4>
+              <p>
+                Don't forget! The deadline for <strong>USAMTS Round 2</strong> submissions is 
+                <strong> December 1st</strong>.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+      {/* ------------------------------- */}
+
       {/* Problem of the Month */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Card className="bg-gradient-card border border-accent/20 hover:border-accent/40 transition-all duration-300 hover:shadow-glow-orange">
@@ -349,72 +383,34 @@ const Home = () => {
               </Badge>
             </div>
             <CardDescription>
-              Check back soon for this month's problem!
+              Submit your solution for a chance to be featured!
             </CardDescription>
           </CardHeader>
-          <CardContent className="prose prose-invert max-w-none text-muted-foreground">
-            <div className="text-center py-12">
-                <h3 className="text-2xl font-bold">Coming Soon!</h3>
-                <p>The October problem will be posted shortly.</p>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* BMT Competition Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="bg-gradient-card border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:shadow-glow-purple">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Berkeley Math Tournament (BMT)
-              </CardTitle>
-              <Trophy className="h-6 w-6 text-primary" />
-            </div>
-            <CardDescription>
-              Interested in a college competition and a chance to travel to UC Berkeley?
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="prose prose-invert max-w-none text-muted-foreground space-y-4">
-            <p>
-              Here is the BMT In-Person Interest Form! If you are interested in a college competition and a chance to travel to UC Berkeley, we highly encourage you to sign up! Participation points will be awarded for this.
+          <CardContent className="prose prose-invert max-w-none text-muted-foreground space-y-6">
+            
+            {/* Wrap the string in <Latex>
+              The library will find the $...$ delimiters and render them.
+            */}
+            <p className="text-lg">
+              <Latex>
+                {'Kite $EVHS$ has three obtuse angles, one of which is $\\angle SEV = 150^\\circ$. Line $l$ intersects $\\overline{VH}$ and $\\overline{SH}$ at $P$ and $Q$ respectively, with the property that $4\\angle PQH + 3\\angle VHS = 360^\\circ$. If line $l$ intersects $\\overline{EH}$ at $R$, and $\\frac{VE}{EH} = \\frac{PR}{RH}$, find $\\angle HPQ$.'}
+              </Latex>
             </p>
-            <div className="flex flex-wrap gap-4">
+            
+            <div className="not-prose flex">
               <a
-                href="https://forms.gle/auHkz7deyGaARjP8A"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSe7141U40pU4j8iR2rZ-kkKKvGy9K91j35YLusjZ6hd-js0eQ/viewform"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Button
                   size="lg"
-                  className="bg-gradient-primary hover:shadow-glow-purple transition-all duration-300 text-white font-semibold px-8 py-4 text-lg"
+                  className="bg-gradient-secondary hover:shadow-glow-orange transition-all duration-300 text-white font-semibold px-8 py-4 text-lg"
                 >
-                  Fill out the Interest Form
+                  Submit Your Solution
                   <ExternalLink className="ml-2 h-5 w-5" />
                 </Button>
               </a>
-              <p className="text-sm text-muted-foreground self-center">
-                Deadline: Wednesday, October 15th. Make sure to read the details carefully, since we understand that there are many.
-              </p>
-            </div>
-
-            <div className="bg-card/50 p-4 rounded-lg border border-border/50 space-y-2">
-                <h4 className="font-semibold text-lg text-foreground flex items-center gap-2">
-                    <Info className="h-5 w-5 text-cyan-500" />
-                    BMT In-Person Contest Details
-                </h4>
-                <ul className="list-disc pl-5 space-y-1">
-                    <li><strong>Location:</strong> UC Berkeley</li>
-                    <li><strong>Date:</strong> Saturday, November 8</li>
-                    <li><strong>Time:</strong> The competition will last from 8 a.m. to 7 p.m.</li>
-                </ul>
-            </div>
-
-            <div className="bg-card/50 p-4 rounded-lg border border-border/50 text-orange-400 flex items-start space-x-2">
-                <Info className="h-5 w-5 flex-shrink-0 mt-1" />
-                <p>
-                    <strong>Important Note:</strong> There is no calculus on the BMT unless you choose to take the Calculus Round as one of your Individual Rounds, or if you choose to participate in an Integration Bee during the Activities time (there are alternatives, like the Estimathon). So, you need not hesitate to sign up if you have not learned calculus yet.
-                </p>
             </div>
           </CardContent>
         </Card>
