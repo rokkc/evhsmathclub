@@ -42,6 +42,12 @@ const Resources = () => {
       url: "https://artofproblemsolving.com/wiki/index.php/USAJMO_Problems_and_Solutions",
     },
     {
+      name: "Mock AMC 10 Contests",
+      source: "Art of Problem Solving",
+      description: "Community-created mock AMC 10 contests for practice.",
+      url: "https://artofproblemsolving.com/wiki/index.php/Mock_Amc_10",
+    },
+    {
       name: "Mock AMC 12 Contests",
       source: "Art of Problem Solving",
       description: "Community-created mock AMC 12 contests for practice.",
