@@ -1,5 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://evhs-math-club.vercel.app/$1",
+      "permanent": true
+    }
   ]
 }
